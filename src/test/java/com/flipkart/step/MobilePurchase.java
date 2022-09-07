@@ -1,5 +1,6 @@
 package com.flipkart.step;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -11,13 +12,17 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver.SystemProperty;
 
 public class MobilePurchase {
-     public static WebDriver driver;
+     private static final String FileUtils = null;
+	public static WebDriver driver;
 	@BeforeClass
 	public static void launchbrowser() throws InterruptedException {
 		System.out.println("launch");
@@ -41,9 +46,7 @@ public class MobilePurchase {
 	@Test
 	public  void launchbrowser1()  {
 		driver.findElement(By.xpath("//button[@class='_2KpZ6l _2doB4z']")).click();
-		driver.findElement(By.xpath("//input[@class='_2IX_2- VJZDxU']")).sendKeys("9500807976");
-		driver.findElement(By.xpath("//input[@type='password']")).sendKeys("9500807976");
-		driver.findElement(By.xpath("//button[@class='_2KpZ6l _2HKlqd _3AWRsL']")).click();
+		
 	}
 	@Test
 	public void launchbrowser2() {
@@ -70,5 +73,22 @@ public class MobilePurchase {
 		
 		driver.findElement(By.xpath("//div[contains(text(),'vivo T1 44W (Ice Dawn, 128 GB)')][1]")).click();
 		Set<String> window = driver.getWindowHandles();
+		
+		driver.findElement(By.xpath("//span[@class='B_NuCI']")).getText();
+		List<String> listWindow = new ArrayList<String>();
+	 	driver.switchTo().window(listWindow.get(1));
+	}
+	
+	public void screenshot() {
+		System.out.println("Specifications screenshot");
+	 	driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+	 	JavascriptExecutor js =(JavascriptExecutor)driver;
+	 	WebElement spec = driver.findElement(By.xpath("//div[text()='Specifications']"));
+	 	js.executeScript("arguments[0].scrollIntoView(true)", spec);
+	 	driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+		TakesScreenshot ts =(TakesScreenshot)driver;
+		File src =ts.getScreenshotAs(OutputType.FILE);
+		File trg= new File("C:\\Users\\DD\\workspace\\JunitTest\\target\\specification.png");
+		FileUtils.copyFile(src, trg);
 	}
 }
